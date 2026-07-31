@@ -4,7 +4,7 @@ final class ImagesListCell: UITableViewCell {
 
     static let id: String = "ImagesListCell"
 
-    let cardImage: UIImageView = {
+    private let cardImage: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.image = ._0
@@ -14,7 +14,7 @@ final class ImagesListCell: UITableViewCell {
         return image
     }()
 
-    let favoriteButton: UIButton = {
+    private let favoriteButton: UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setImage(.active, for: .normal)
@@ -24,11 +24,12 @@ final class ImagesListCell: UITableViewCell {
         return btn
     }()
 
-    let cardlabel: UILabel = {
+    private let cardlabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "27 августа 2022"
         label.font = .systemFont(ofSize: 13)
+        label.textColor = .white
         return label
     }()
 
@@ -42,6 +43,14 @@ final class ImagesListCell: UITableViewCell {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         nil
+    }
+
+    func configure(image: UIImage, date: String, isLiked: Bool) {
+        cardImage.image = image
+        cardlabel.text = date
+
+        let likeImage = isLiked ? UIImage(named: "inactive") : UIImage(named: "active")
+        favoriteButton.setImage(likeImage, for: .normal)
     }
 
     private func setupUI() {

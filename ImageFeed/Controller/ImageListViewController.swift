@@ -1,8 +1,11 @@
 import UIKit
 
-class ImageListViewController: UITableViewController {
+final class ImageListViewController: UITableViewController {
 
-    private let photosName: [String] = Array(0..<20).map { "\($0)"}
+    private let photoNames: [String] = Array(0..<20).map { "\($0)"}
+    private let rowHeight: CGFloat = 200
+    private let tableInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+    private let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
 
     init() {
         super.init(style: .grouped)
@@ -21,23 +24,20 @@ class ImageListViewController: UITableViewController {
         tableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.id)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.backgroundColor = .ypBlack
-        tableView.estimatedRowHeight = 200
-        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        tableView.estimatedRowHeight = rowHeight
+        tableView.contentInset = tableInsets
     }
 
-    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-
+    private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         guard let image = UIImage(named: "\(indexPath.row)") else { return }
 
-        cell.cardImage.image = image
-        cell.cardlabel.text = Date.now.formatted(date: .long, time: .omitted)
-
+        let date = Date.now.formatted(date: .long, time: .omitted)
         let isLiked = indexPath.row % 2 == 0
-        cell.favoriteButton.setImage(isLiked ? .inactive : .active, for: .normal)
+        cell.configure(image: image, date: date, isLiked: isLiked)
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        photosName.count
+        photoNames.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -52,13 +52,15 @@ class ImageListViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let image = UIImage(named: photosName[indexPath.row]) else {
-            return 0
+        guard let image = UIImage(named: photoNames[indexPath.row]) else {
+            return rowHeight
         }
 
-        let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         let imageViewWidth = tableView.bounds.width - imageInsets.left - imageInsets.right
         let imageWidth = image.size.width
+
+        guard imageWidth > 0 else { return rowHeight }
+
         let scale = imageViewWidth / imageWidth
         let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
         return cellHeight
