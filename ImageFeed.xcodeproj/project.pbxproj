@@ -7,15 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		100E194C301D215300140BD5 /* NavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100E194B301D215200140BD5 /* NavController.swift */; };
+		100E194F301D220F00140BD5 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100E194E301D220900140BD5 /* ProfileViewController.swift */; };
+		100E1951301D229900140BD5 /* YPLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100E1950301D228E00140BD5 /* YPLabel.swift */; };
 		10AF0EF230192320008B8477 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10AF0EEA30192320008B8477 /* AppDelegate.swift */; };
 		10AF0EF330192320008B8477 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10AF0EEF30192320008B8477 /* SceneDelegate.swift */; };
 		10AF0EF430192320008B8477 /* ImageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10AF0EF030192320008B8477 /* ImageListViewController.swift */; };
 		10AF0EF530192320008B8477 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10AF0EEB30192320008B8477 /* Assets.xcassets */; };
 		10AF0EF730192320008B8477 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10AF0EEE30192320008B8477 /* LaunchScreen.storyboard */; };
 		10AF0F003019352D008B8477 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10AF0EFF30193524008B8477 /* ImagesListCell.swift */; };
+		10C4102C3023AE53003F3349 /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C4102B3023AE45003F3349 /* UIStackView+Extension.swift */; };
+		10C4102E3023BCD6003F3349 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C4102D3023BCCC003F3349 /* SingleImageViewController.swift */; };
+		10F75E9D301DB34100F38513 /* YPImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F75E9C301DB33D00F38513 /* YPImageView.swift */; };
+		10F75E9F301DC56300F38513 /* YPButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F75E9E301DC56000F38513 /* YPButton.swift */; };
+		10F75EA1301E6FE200F38513 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F75EA0301E6FDD00F38513 /* TabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		100E194B301D215200140BD5 /* NavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavController.swift; sourceTree = "<group>"; };
+		100E194E301D220900140BD5 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		100E1950301D228E00140BD5 /* YPLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPLabel.swift; sourceTree = "<group>"; };
 		10AF0EEA30192320008B8477 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		10AF0EEB30192320008B8477 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		10AF0EEC30192320008B8477 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -23,7 +34,12 @@
 		10AF0EEF30192320008B8477 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		10AF0EF030192320008B8477 /* ImageListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListViewController.swift; sourceTree = "<group>"; };
 		10AF0EFF30193524008B8477 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
+		10C4102B3023AE45003F3349 /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
+		10C4102D3023BCCC003F3349 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		10EBE68A301843D9009A96A5 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		10F75E9C301DB33D00F38513 /* YPImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPImageView.swift; sourceTree = "<group>"; };
+		10F75E9E301DC56000F38513 /* YPButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPButton.swift; sourceTree = "<group>"; };
+		10F75EA0301E6FDD00F38513 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +60,7 @@
 				10AF0F0130193834008B8477 /* Model */,
 				10AF0EFE3019350A008B8477 /* View */,
 				10AF0EFA30192408008B8477 /* Controller */,
+				10C4102A3023AE2F003F3349 /* Extensions */,
 				10AF0EF9301923DF008B8477 /* Supporting */,
 			);
 			path = ImageFeed;
@@ -71,7 +88,11 @@
 		10AF0EFA30192408008B8477 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				100E194B301D215200140BD5 /* NavController.swift */,
+				10F75EA0301E6FDD00F38513 /* TabBarController.swift */,
 				10AF0EF030192320008B8477 /* ImageListViewController.swift */,
+				10C4102D3023BCCC003F3349 /* SingleImageViewController.swift */,
+				100E194E301D220900140BD5 /* ProfileViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -79,6 +100,9 @@
 		10AF0EFE3019350A008B8477 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				10F75E9E301DC56000F38513 /* YPButton.swift */,
+				10F75E9C301DB33D00F38513 /* YPImageView.swift */,
+				100E1950301D228E00140BD5 /* YPLabel.swift */,
 				10AF0EFF30193524008B8477 /* ImagesListCell.swift */,
 			);
 			path = View;
@@ -89,6 +113,14 @@
 			children = (
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		10C4102A3023AE2F003F3349 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				10C4102B3023AE45003F3349 /* UIStackView+Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		10EBE681301843D8009A96A5 = {
@@ -180,10 +212,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10C4102E3023BCD6003F3349 /* SingleImageViewController.swift in Sources */,
+				100E194F301D220F00140BD5 /* ProfileViewController.swift in Sources */,
 				10AF0EF230192320008B8477 /* AppDelegate.swift in Sources */,
+				100E194C301D215300140BD5 /* NavController.swift in Sources */,
+				10F75EA1301E6FE200F38513 /* TabBarController.swift in Sources */,
+				10F75E9D301DB34100F38513 /* YPImageView.swift in Sources */,
+				100E1951301D229900140BD5 /* YPLabel.swift in Sources */,
+				10F75E9F301DC56300F38513 /* YPButton.swift in Sources */,
 				10AF0EF330192320008B8477 /* SceneDelegate.swift in Sources */,
 				10AF0F003019352D008B8477 /* ImagesListCell.swift in Sources */,
 				10AF0EF430192320008B8477 /* ImageListViewController.swift in Sources */,
+				10C4102C3023AE53003F3349 /* UIStackView+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

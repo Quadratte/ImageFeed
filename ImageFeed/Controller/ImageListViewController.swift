@@ -18,6 +18,7 @@ final class ImageListViewController: UITableViewController {
     }
 
     private func setupTable() {
+        self.title = "title"
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
@@ -63,6 +64,19 @@ final class ImageListViewController: UITableViewController {
 
         let scale = imageViewWidth / imageWidth
         let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
+
         return cellHeight
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        let singleImageVC = SingleImageViewController()
+
+        if let image = UIImage(named: "\(indexPath.row)") {
+            singleImageVC.image = image
+        }
+        
+        present(singleImageVC, animated: true)
     }
 }

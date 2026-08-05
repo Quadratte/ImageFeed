@@ -4,34 +4,9 @@ final class ImagesListCell: UITableViewCell {
 
     static let id: String = "ImagesListCell"
 
-    private let cardImage: UIImageView = {
-        let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.image = ._0
-        image.contentMode = .scaleAspectFill
-        image.layer.cornerRadius = 16
-        image.clipsToBounds = true
-        return image
-    }()
-
-    private let favoriteButton: UIButton = {
-        let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setImage(.active, for: .normal)
-        btn.imageView?.contentMode = .scaleAspectFit
-        btn.contentVerticalAlignment = .center
-        btn.contentHorizontalAlignment = .center
-        return btn
-    }()
-
-    private let cardlabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "27 августа 2022"
-        label.font = .systemFont(ofSize: 13)
-        label.textColor = .white
-        return label
-    }()
+    private let favoriteButton = YPButton()
+    private let cardImage = YPImageView()
+    private let cardLabel = YPLabel(.secondary, .ypWhite)
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
@@ -47,7 +22,7 @@ final class ImagesListCell: UITableViewCell {
 
     func configure(image: UIImage, date: String, isLiked: Bool) {
         cardImage.image = image
-        cardlabel.text = date
+        cardLabel.text = date
 
         let likeImage = isLiked ? UIImage(named: "inactive") : UIImage(named: "active")
         favoriteButton.setImage(likeImage, for: .normal)
@@ -57,7 +32,7 @@ final class ImagesListCell: UITableViewCell {
         contentView.backgroundColor = .ypBlack
         contentView.addSubview(cardImage)
         cardImage.addSubview(favoriteButton)
-        cardImage.addSubview(cardlabel)
+        cardImage.addSubview(cardLabel)
     }
 
     private func setupConstraints() {
@@ -72,8 +47,8 @@ final class ImagesListCell: UITableViewCell {
             favoriteButton.heightAnchor.constraint(equalToConstant: 44),
             favoriteButton.widthAnchor.constraint(equalToConstant: 44),
 
-            cardlabel.leadingAnchor.constraint(equalTo: cardImage.leadingAnchor, constant: 8),
-            cardlabel.bottomAnchor.constraint(equalTo: cardImage.bottomAnchor, constant: -8),
+            cardLabel.leadingAnchor.constraint(equalTo: cardImage.leadingAnchor, constant: 8),
+            cardLabel.bottomAnchor.constraint(equalTo: cardImage.bottomAnchor, constant: -8),
         ])
     }
 
