@@ -2,7 +2,10 @@ import UIKit
 
 final class YPButton: UIButton {
 
-    init() {
+    var buttonImage: UIImage?
+
+    init(_ buttonImage: UIImage) {
+        self.buttonImage = buttonImage
         super .init(frame: .zero)
         setupButton()
     }
@@ -14,7 +17,7 @@ final class YPButton: UIButton {
 
     private func setupButton() {
       translatesAutoresizingMaskIntoConstraints = false
-      setImage(.active, for: .normal)
+      setImage(buttonImage, for: .normal)
       imageView?.contentMode = .scaleAspectFit
       contentVerticalAlignment = .center
       contentHorizontalAlignment = .center

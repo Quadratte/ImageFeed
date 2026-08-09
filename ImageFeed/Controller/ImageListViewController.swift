@@ -2,11 +2,13 @@ import UIKit
 
 final class ImageListViewController: UITableViewController {
 
+    // MARK: - UI Components
     private let photoNames: [String] = Array(0..<20).map { "\($0)"}
     private let rowHeight: CGFloat = 200
     private let tableInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     private let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
 
+    // MARK: - Init
     init() {
         super.init(style: .grouped)
         setupTable()
@@ -17,8 +19,8 @@ final class ImageListViewController: UITableViewController {
         nil
     }
 
+    // MARK: - Setup
     private func setupTable() {
-        self.title = "title"
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
@@ -29,6 +31,7 @@ final class ImageListViewController: UITableViewController {
         tableView.contentInset = tableInsets
     }
 
+    // MARK: - Configure Cell
     private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         guard let image = UIImage(named: "\(indexPath.row)") else { return }
 
@@ -37,6 +40,7 @@ final class ImageListViewController: UITableViewController {
         cell.configure(image: image, date: date, isLiked: isLiked)
     }
 
+    // MARK: - UITableView methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         photoNames.count
     }

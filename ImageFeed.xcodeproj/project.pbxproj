@@ -27,7 +27,6 @@
 		100E194B301D215200140BD5 /* NavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavController.swift; sourceTree = "<group>"; };
 		100E194E301D220900140BD5 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		100E1950301D228E00140BD5 /* YPLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPLabel.swift; sourceTree = "<group>"; };
-		104F32AC3025054800FCA530 /* Lesson.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Lesson.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		10AF0EEA30192320008B8477 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		10AF0EEB30192320008B8477 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		10AF0EEC30192320008B8477 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -82,7 +81,6 @@
 				10AF0EEE30192320008B8477 /* LaunchScreen.storyboard */,
 				10AF0EEB30192320008B8477 /* Assets.xcassets */,
 				10AF0EEC30192320008B8477 /* Info.plist */,
-				104F32AC3025054800FCA530 /* Lesson.playground */,
 			);
 			path = Supporting;
 			sourceTree = "<group>";

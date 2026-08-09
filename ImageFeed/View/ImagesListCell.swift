@@ -4,10 +4,12 @@ final class ImagesListCell: UITableViewCell {
 
     static let id: String = "ImagesListCell"
 
-    private let favoriteButton = YPButton()
+    // MARK: - UI Components
+    private let favoriteButton = YPButton(.active)
     private let cardImage = YPImageView()
     private let cardLabel = YPLabel(.secondary, .ypWhite)
 
+    // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -19,7 +21,15 @@ final class ImagesListCell: UITableViewCell {
     required init?(coder: NSCoder) {
         nil
     }
+    // MARK: - Lifecycle
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if let gradient = cardImage.layer.sublayers?.first(where: { $0 is CAGradientLayer }) as? CAGradientLayer {
+            gradient.frame = cardImage.bounds
+        }
+    }
 
+    // MARK: - Configure
     func configure(image: UIImage, date: String, isLiked: Bool) {
         cardImage.image = image
         cardLabel.text = date
@@ -28,6 +38,7 @@ final class ImagesListCell: UITableViewCell {
         favoriteButton.setImage(likeImage, for: .normal)
     }
 
+    // MARK: - Setup
     private func setupUI() {
         contentView.backgroundColor = .ypBlack
         contentView.addSubview(cardImage)
@@ -60,12 +71,5 @@ final class ImagesListCell: UITableViewCell {
         gradient.startPoint = CGPoint(x: 0.0, y: 0.7)
         gradient.endPoint = CGPoint(x: 0.0, y: 1.0)
         cardImage.layer.insertSublayer(gradient, at: 0)
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        if let gradient = cardImage.layer.sublayers?.first(where: { $0 is CAGradientLayer }) as? CAGradientLayer {
-            gradient.frame = cardImage.bounds
-        }
     }
 }

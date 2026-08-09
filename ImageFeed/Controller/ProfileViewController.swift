@@ -2,6 +2,7 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
 
+    // MARK: - UI Components
     private let mainStack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -21,7 +22,7 @@ final class ProfileViewController: UIViewController {
         return stack
     }()
 
-    private let exitButton = YPButton()
+    private let exitButton = YPButton(.exit)
     private let userImage = YPImageView()
     private let usernameLabel = YPLabel(.primary, .ypWhite, "Екатерина Новикова")
     private let userURL = YPLabel(.secondary, .ypGray, "@ekaterina_nov")
@@ -34,23 +35,24 @@ final class ProfileViewController: UIViewController {
         setupConstraints()
     }
 
+    // MARK: - Configure
     private func configure() {
         userImage.image = .photo
-        exitButton.setImage(.exit, for: .normal)
     }
 
+    // MARK: - Setup
     private func setupUI() {
         view.backgroundColor = .ypBlack
         view.addSubview(mainStack)
 
         mainStack.addArrangedSubview(headerStack)
+        mainStack.addArrangedSubview(usernameLabel)
+        mainStack.addArrangedSubview(userURL)
+        mainStack.addArrangedSubview(userInfo)
 
         headerStack.addArrangedSubview(userImage)
         headerStack.addArrangedSubview(exitButton)
 
-        mainStack.addArrangedSubview(usernameLabel)
-        mainStack.addArrangedSubview(userURL)
-        mainStack.addArrangedSubview(userInfo)
     }
 
     private func setupConstraints() {
