@@ -1,17 +1,28 @@
 import UIKit
 
-final class ImageListViewController: UITableViewController {
+final class ImageListViewController: UIViewController {
 
     // MARK: - UI Components
-    private let photoNames: [String] = Array(0..<20).map { "\($0)"}
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = .ypBlack
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 200
+        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        tableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.id)
+        return tableView
+    }()
+
+    // MARK: - Properties
+    private let photoNames: [String] = Array(0..<20).map { "\($0)" }
     private let rowHeight: CGFloat = 200
-    private let tableInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     private let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
 
     // MARK: - Init
     init() {
-        super.init(style: .grouped)
-        setupTable()
+        super.init(nibName: nil, bundle: nil)
     }
 
     @available(*, unavailable)
@@ -19,16 +30,37 @@ final class ImageListViewController: UITableViewController {
         nil
     }
 
+    // MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupView()
+        setupConstraints()
+        setupTableView()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+       navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
     // MARK: - Setup
-    private func setupTable() {
+    private func setupView() {
+        view.backgroundColor = .ypBlack
+        view.addSubview(tableView)
+    }
+
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+
+    private func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.separatorStyle = .none
-        tableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.id)
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.backgroundColor = .ypBlack
-        tableView.estimatedRowHeight = rowHeight
-        tableView.contentInset = tableInsets
     }
 
     // MARK: - Configure Cell
@@ -39,13 +71,15 @@ final class ImageListViewController: UITableViewController {
         let isLiked = indexPath.row % 2 == 0
         cell.configure(image: image, date: date, isLiked: isLiked)
     }
+}
 
-    // MARK: - UITableView methods
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        photoNames.count
+// MARK: - UITableViewDataSource
+extension ImageListViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return photoNames.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.id, for: indexPath)
 
         guard let imageListCell = cell as? ImagesListCell else {
@@ -55,8 +89,11 @@ final class ImageListViewController: UITableViewController {
         configCell(for: imageListCell, with: indexPath)
         return imageListCell
     }
+}
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+// MARK: - UITableViewDelegate
+extension ImageListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let image = UIImage(named: photoNames[indexPath.row]) else {
             return rowHeight
         }
@@ -72,7 +109,7 @@ final class ImageListViewController: UITableViewController {
         return cellHeight
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
         let singleImageVC = SingleImageViewController()
@@ -80,7 +117,7 @@ final class ImageListViewController: UITableViewController {
         if let image = UIImage(named: "\(indexPath.row)") {
             singleImageVC.image = image
         }
-        
+
         present(singleImageVC, animated: true)
     }
 }
