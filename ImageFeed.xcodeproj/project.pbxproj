@@ -57,11 +57,12 @@
 			isa = PBXGroup;
 			children = (
 				10AF0EF830192325008B8477 /* App */,
-				10AF0F0130193834008B8477 /* Model */,
-				10AF0EFE3019350A008B8477 /* View */,
-				10AF0EFA30192408008B8477 /* Controller */,
+				10BE9C81302CF6C7000275D7 /* ImageList */,
+				10AF0F0130193834008B8477 /* SingleImage */,
+				10AF0EFA30192408008B8477 /* Profile */,
+				10AF0EFE3019350A008B8477 /* UIComponents */,
 				10C4102A3023AE2F003F3349 /* Extensions */,
-				10AF0EF9301923DF008B8477 /* Supporting */,
+				10AF0EF9301923DF008B8477 /* Resources */,
 			);
 			path = ImageFeed;
 			sourceTree = "<group>";
@@ -71,48 +72,55 @@
 			children = (
 				10AF0EEA30192320008B8477 /* AppDelegate.swift */,
 				10AF0EEF30192320008B8477 /* SceneDelegate.swift */,
+				100E194B301D215200140BD5 /* NavController.swift */,
+				10F75EA0301E6FDD00F38513 /* TabBarController.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
 		};
-		10AF0EF9301923DF008B8477 /* Supporting */ = {
+		10AF0EF9301923DF008B8477 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				10AF0EEE30192320008B8477 /* LaunchScreen.storyboard */,
 				10AF0EEB30192320008B8477 /* Assets.xcassets */,
 				10AF0EEC30192320008B8477 /* Info.plist */,
 			);
-			path = Supporting;
+			path = Resources;
 			sourceTree = "<group>";
 		};
-		10AF0EFA30192408008B8477 /* Controller */ = {
+		10AF0EFA30192408008B8477 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				100E194B301D215200140BD5 /* NavController.swift */,
-				10F75EA0301E6FDD00F38513 /* TabBarController.swift */,
-				10AF0EF030192320008B8477 /* ImageListViewController.swift */,
-				10C4102D3023BCCC003F3349 /* SingleImageViewController.swift */,
 				100E194E301D220900140BD5 /* ProfileViewController.swift */,
 			);
-			path = Controller;
+			path = Profile;
 			sourceTree = "<group>";
 		};
-		10AF0EFE3019350A008B8477 /* View */ = {
+		10AF0EFE3019350A008B8477 /* UIComponents */ = {
 			isa = PBXGroup;
 			children = (
 				10F75E9E301DC56000F38513 /* YPButton.swift */,
 				10F75E9C301DB33D00F38513 /* YPImageView.swift */,
 				100E1950301D228E00140BD5 /* YPLabel.swift */,
-				10AF0EFF30193524008B8477 /* ImagesListCell.swift */,
 			);
-			path = View;
+			path = UIComponents;
 			sourceTree = "<group>";
 		};
-		10AF0F0130193834008B8477 /* Model */ = {
+		10AF0F0130193834008B8477 /* SingleImage */ = {
 			isa = PBXGroup;
 			children = (
+				10C4102D3023BCCC003F3349 /* SingleImageViewController.swift */,
 			);
-			path = Model;
+			path = SingleImage;
+			sourceTree = "<group>";
+		};
+		10BE9C81302CF6C7000275D7 /* ImageList */ = {
+			isa = PBXGroup;
+			children = (
+				10AF0EF030192320008B8477 /* ImageListViewController.swift */,
+				10AF0EFF30193524008B8477 /* ImagesListCell.swift */,
+			);
+			path = ImageList;
 			sourceTree = "<group>";
 		};
 		10C4102A3023AE2F003F3349 /* Extensions */ = {
