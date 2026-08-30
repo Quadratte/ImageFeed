@@ -2,11 +2,11 @@ import UIKit
 
 final class ImagesListCell: UITableViewCell {
 
-    static let id: String = "ImagesListCell"
+    static let id = String(describing: ImagesListCell.self)
 
     // MARK: - UI Components
-    private let favoriteButton = YPButton(.active)
-    private let cardImage = YPImageView()
+    private let favoriteButton = ImageButton(.active)
+    private let cardImage = YPImageView(.rounded)
     private let cardLabel = YPLabel(.secondary, .ypWhite)
 
     // MARK: - Init
@@ -48,10 +48,10 @@ final class ImagesListCell: UITableViewCell {
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            cardImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
-            cardImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            cardImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            cardImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
+            cardImage.topAnchor.constraint(equalTo: topAnchor, constant: 4),
+            cardImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            cardImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            cardImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4),
 
             favoriteButton.topAnchor.constraint(equalTo: cardImage.topAnchor, constant: 0),
             favoriteButton.trailingAnchor.constraint(equalTo: cardImage.trailingAnchor, constant: 0),

@@ -8,7 +8,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = NavController(rootViewController: TabBarController())
+        window?.rootViewController = NavController(rootViewController: SplashViewController())
         window?.makeKeyAndVisible()
     }
 
