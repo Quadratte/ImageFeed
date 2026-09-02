@@ -2,10 +2,10 @@ import UIKit
 
 final class YPButton: UIButton {
 
-    var buttonImage: UIImage?
+    let title: String
 
-    init(_ buttonImage: UIImage) {
-        self.buttonImage = buttonImage
+    init(_ title: String) {
+        self.title = title
         super .init(frame: .zero)
         setupButton()
     }
@@ -16,10 +16,11 @@ final class YPButton: UIButton {
     }
 
     private func setupButton() {
-      translatesAutoresizingMaskIntoConstraints = false
-      setImage(buttonImage, for: .normal)
-      imageView?.contentMode = .scaleAspectFit
-      contentVerticalAlignment = .center
-      contentHorizontalAlignment = .center
+        translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = .ypWhite
+        setTitle(title, for: .normal)
+        setTitleColor(.ypBlack, for: .normal)
+        layer.cornerRadius = 16
+        layer.masksToBounds = true
     }
 }

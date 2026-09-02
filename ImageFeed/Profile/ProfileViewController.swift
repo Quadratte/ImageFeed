@@ -22,7 +22,7 @@ final class ProfileViewController: UIViewController {
         return stack
     }()
 
-    private let exitButton = YPButton(.exit)
+    private let exitButton = ImageButton(.exit)
     private let userImage = YPImageView()
     private let usernameLabel = YPLabel(.primary, .ypWhite, "Екатерина Новикова")
     private let userURL = YPLabel(.secondary, .ypGray, "@ekaterina_nov")
@@ -51,10 +51,8 @@ final class ProfileViewController: UIViewController {
         view.backgroundColor = .ypBlack
         view.addSubview(mainStack)
 
-        mainStack.addArrangedSubview(headerStack)
-        mainStack.addArrangedSubview(usernameLabel)
-        mainStack.addArrangedSubview(userURL)
-        mainStack.addArrangedSubview(userInfo)
+        let subViews = [headerStack, usernameLabel, userURL, userInfo]
+        subViews.forEach { mainStack.addArrangedSubview($0) }
 
         headerStack.addArrangedSubview(userImage)
         headerStack.addArrangedSubview(exitButton)

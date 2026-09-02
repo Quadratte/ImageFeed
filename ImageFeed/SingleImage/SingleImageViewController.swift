@@ -13,9 +13,9 @@ final class SingleImageViewController: UIViewController {
         return sv
     }()
 
-    private let imageView = YPImageView()
-    private let backButton = YPButton(.backward)
-    private let shareButton = YPButton(.sharing)
+    private let imageView = YPImageView(.rounded)
+    private let backButton = ImageButton(.backward)
+    private let shareButton = ImageButton(.sharing)
 
     var image: UIImage?
 

@@ -9,7 +9,7 @@ final class NavController: UINavigationController {
 
     private func setupNavBar() {
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = .ypBlack
+        appearance.backgroundColor = .ypWhite
         appearance.titleTextAttributes = [
             .foregroundColor: UIColor.ypWhite,
             .font: UIFont.systemFont(ofSize: 17, weight: .semibold)
