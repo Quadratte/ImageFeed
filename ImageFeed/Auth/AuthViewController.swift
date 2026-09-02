@@ -1,9 +1,10 @@
 import UIKit
 
+// MARK: - AuthViewControllerDelegate
 protocol AuthViewControllerDelegate: AnyObject {
     func didAuthenticate(_ vc: AuthViewController)
 }
-
+// MARK: - AuthViewController
 final class AuthViewController: UIViewController {
 
     // MARK: - UI Components
@@ -63,6 +64,7 @@ final class AuthViewController: UIViewController {
     }
 }
 
+// MARK: - WebViewViewControllerDelegate
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         navigationController?.popViewController(animated: true)
@@ -71,7 +73,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
             switch result {
             case .success:
                 print("Auth successful")
-                guard let self = self else { return }
+                guard let self else { return }
                 self.delegate?.didAuthenticate(self)
             case .failure(let error):
                 print("Error: \(error.localizedDescription)")
