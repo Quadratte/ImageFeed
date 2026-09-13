@@ -2,6 +2,9 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
 
+    // MARK: - Properties
+    let profileService = ProfileService.shared.profile
+
     // MARK: - UI Components
     private let mainStack: UIStackView = {
         let stack = UIStackView()
@@ -30,7 +33,7 @@ final class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configure()
+        configure(profile: profileService)
         setupUI()
         setupConstraints()
     }
@@ -42,8 +45,17 @@ final class ProfileViewController: UIViewController {
     }
 
     // MARK: - Configure
-    private func configure() {
+    private func configure(profile: Profile?) {
+
+        guard let profile else {
+            print("Profile data is nil")
+            return
+        }
+        
         userImage.image = .photo
+        usernameLabel.text = profile.name
+        userURL.text = profile.username
+        userInfo.text = profile.bio ?? "Нет описания"
     }
 
     // MARK: - Setup
@@ -56,7 +68,6 @@ final class ProfileViewController: UIViewController {
 
         headerStack.addArrangedSubview(userImage)
         headerStack.addArrangedSubview(exitButton)
-
     }
 
     private func setupConstraints() {
@@ -66,7 +77,7 @@ final class ProfileViewController: UIViewController {
             mainStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
 
             headerStack.widthAnchor.constraint(equalTo: mainStack.widthAnchor),
-            
+
             userImage.heightAnchor.constraint(equalToConstant: 70),
             userImage.widthAnchor.constraint(equalToConstant: 70),
         ])

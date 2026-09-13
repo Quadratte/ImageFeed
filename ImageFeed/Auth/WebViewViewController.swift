@@ -9,6 +9,10 @@ protocol WebViewViewControllerDelegate: AnyObject {
 // MARK: - WebViewViewController
 final class WebViewViewController: UIViewController {
 
+    enum WebViewConstants {
+        static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+    }
+
     // MARK: - UI Components
     let webView: WKWebView = {
         let vw = WKWebView()
@@ -95,6 +99,7 @@ final class WebViewViewController: UIViewController {
             return
         }
         let request = URLRequest(url: url)
+        print(request)
         webView.load(request)
     }
 }
@@ -152,14 +157,5 @@ extension WebViewViewController: WKNavigationDelegate {
         } else {
             return nil
         }
-    }
-}
-
-// MARK: - Extension WebViewViewController
-
-extension WebViewViewController {
-
-    enum WebViewConstants {
-        static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
     }
 }

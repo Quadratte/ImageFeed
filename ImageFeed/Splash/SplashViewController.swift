@@ -2,7 +2,11 @@ import UIKit
 
 final class SplashViewController: UIViewController {
 
+    // MARK: - Properties
     private let storage = OAuth2TokenStorage()
+    private let profileService = ProfileService.shared
+
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -13,9 +17,27 @@ final class SplashViewController: UIViewController {
         super.viewDidAppear(animated)
         checkAuthStatus()
     }
-
+    // MARK: - Setup
     private func setupUI() {
         view.backgroundColor = .ypBlack
+    }
+
+    // MARK: - Private methods
+
+    private func fetchProfile(_ token: String) {
+        UIBlockingProgressHUD.show()
+        profileService.fetchProfile(token) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+
+            guard let self else { return }
+
+            switch result {
+            case .success:
+                self.switchToTabBarController()
+            case .failure:
+                self.showAuthViewController()
+            }
+        }
     }
 
     private func checkAuthStatus() {
@@ -26,6 +48,7 @@ final class SplashViewController: UIViewController {
         }
     }
 
+    // MARK: - Show
     private func showAuthViewController() {
         let authVC = AuthViewController()
         authVC.delegate = self
@@ -47,6 +70,8 @@ final class SplashViewController: UIViewController {
 // MARK: - AuthViewControllerDelegate
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate(_ vc: AuthViewController) {
-        switchToTabBarController()
+        navigationController?.popViewController(animated: true)
+        guard let token = storage.token else { return }
+        fetchProfile(token)
     }
 }
