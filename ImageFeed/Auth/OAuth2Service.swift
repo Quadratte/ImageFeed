@@ -18,7 +18,7 @@ final class OAuth2Service {
 
     private init() { }
 
-    private let tokenStorage = OAuth2TokenStorage()
+    private let tokenStorage = OAuth2TokenStorage.shared
 
     @MainActor
 

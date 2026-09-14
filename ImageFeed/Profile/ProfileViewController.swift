@@ -26,7 +26,7 @@ final class ProfileViewController: UIViewController {
     }()
 
     private let exitButton = ImageButton(.exit)
-    private let userImage = YPImageView()
+    private let userImage = YPImageView(.photo)
     private let usernameLabel = YPLabel(.primary, .ypWhite, "Екатерина Новикова")
     private let userURL = YPLabel(.secondary, .ypGray, "@ekaterina_nov")
     private let userInfo = YPLabel(.secondary, .ypWhite, "Hello world!")
