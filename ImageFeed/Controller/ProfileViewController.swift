@@ -3,7 +3,8 @@ import UIKit
 final class ProfileViewController: UIViewController {
 
     // MARK: - Properties
-    let profileService = ProfileService.shared.profile
+    let profileService = ProfileService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
 
     // MARK: - UI Components
     private let mainStack: UIStackView = {
@@ -33,7 +34,7 @@ final class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configure(profile: profileService)
+        updateAvatar(profile: profileService.profile)
         setupUI()
         setupConstraints()
     }
@@ -45,13 +46,13 @@ final class ProfileViewController: UIViewController {
     }
 
     // MARK: - Configure
-    private func configure(profile: Profile?) {
+    private func updateAvatar(profile: Profile?) {
 
         guard let profile else {
             print("Profile data is nil")
             return
         }
-        
+
         userImage.image = .photo
         usernameLabel.text = profile.name
         userURL.text = profile.username
@@ -81,5 +82,14 @@ final class ProfileViewController: UIViewController {
             userImage.heightAnchor.constraint(equalToConstant: 70),
             userImage.widthAnchor.constraint(equalToConstant: 70),
         ])
+    }
+
+    //MARK: - Observer
+    private func addObserver() {
+        profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
+            guard let self else { return }
+            self.updateAvatar(profile: profileService.profile)
+        }
+        updateAvatar(profile: profileService.profile)
     }
 }

@@ -57,6 +57,23 @@ final class AuthViewController: UIViewController {
         ])
     }
 
+    // MARK: - Show
+    private func showAlert() {
+        let alert = UIAlertController(
+            title: "Что-то пошло не так",
+            message: "Не удаось войти в систему",
+            preferredStyle: .alert
+        )
+
+        let cancelAction = UIAlertAction(title: "Ок", style: .default) { _ in
+            print("alert cancel tapped")
+        }
+
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true)
+    }
+
+
     // MARK: - Navigation
     private func pushToNextController() {
         let vc = WebViewViewController()
@@ -83,6 +100,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
                 self.delegate?.didAuthenticate(self)
             case .failure(let error):
                 print("Error: \(error.localizedDescription)")
+                self.showAlert()
             }
         }
     }

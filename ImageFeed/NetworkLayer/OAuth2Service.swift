@@ -48,44 +48,27 @@ final class OAuth2Service {
             return
         }
 
-        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             DispatchQueue.main.async {
-                if let error = error {
-                    print("Network error: \(error.localizedDescription)")
-                    completion(.failure(error))
-                    self?.task = nil
-                    self?.lastCode = nil
-                    return
-                }
+                UIBlockingProgressHUD.dismiss()
+                guard let self = self else { return }
 
-                guard let response = response as? HTTPURLResponse,
-                      (200..<300).contains(response.statusCode) else {
-                    print("HTTP error: \((response as? HTTPURLResponse)?.statusCode ?? 0)")
-                    completion(.failure(NetworkError.codeError))
-                    return
-                }
+                switch result {
+                case .success(let body):
+                    let authToken = body.accessToken
+                    self.tokenStorage.token = authToken
+                    completion(.success(authToken))
 
-                guard let data = data else {
-                    print("No data received")
-                    completion(.failure(NetworkError.noData))
-                    self?.task = nil
-                    self?.lastCode = nil
-                    return
-                }
+                    self.task = nil
+                    self.lastCode = nil
 
-                do {
-                    let decoder = JSONDecoder()
-                    let tokenResponse = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    self?.tokenStorage.token = tokenResponse.accessToken
-                    print("Token saved")
-                    completion(.success(tokenResponse.accessToken))
-                } catch {
-                    print("Decoding error: \(error.localizedDescription)")
-                    completion(.failure(NetworkError.decodingError))
+                case .failure(let error):
+                    print("[fetchOAuthToken]: Ошибка запроса: \(error.localizedDescription)")
+                    completion(.failure(error)) 
 
+                    self.task = nil
+                    self.lastCode = nil
                 }
-                self?.task = nil
-                self?.lastCode = nil
             }
         }
         self.task = task

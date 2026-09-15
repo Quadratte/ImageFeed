@@ -5,9 +5,9 @@ final class SplashViewController: UIViewController {
     // MARK: - Properties
     private let storage = OAuth2TokenStorage.shared
     private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
 
     // MARK: - Lifecycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -16,6 +16,7 @@ final class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         checkAuthStatus()
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     // MARK: - Setup
     private func setupUI() {
@@ -23,7 +24,6 @@ final class SplashViewController: UIViewController {
     }
 
     // MARK: - Private methods
-
     private func fetchProfile(_ token: String) {
         UIBlockingProgressHUD.show()
         profileService.fetchProfile(token) { [weak self] result in
@@ -32,7 +32,10 @@ final class SplashViewController: UIViewController {
             guard let self else { return }
 
             switch result {
-            case .success:
+            case let .success(profile):
+                profileImageService.fetchProfileImageURL(username: profile.username) { _ in
+                    print("username")
+                }
                 self.switchToTabBarController()
             case .failure:
                 self.showAuthViewController()
@@ -41,8 +44,8 @@ final class SplashViewController: UIViewController {
     }
 
     private func checkAuthStatus() {
-        if storage.token != nil {
-            switchToTabBarController()
+        if let token = storage.token {
+            fetchProfile(token)
         } else {
             showAuthViewController()
         }
