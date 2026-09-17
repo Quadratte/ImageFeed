@@ -1,6 +1,12 @@
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
+
+    // MARK: - Properties
+    let profileService = ProfileService.shared
+    let avatarURL = ProfileImageService.shared.avatarURL
+    private var profileImageServiceObserver: NSObjectProtocol?
 
     // MARK: - UI Components
     private let mainStack: UIStackView = {
@@ -23,16 +29,16 @@ final class ProfileViewController: UIViewController {
     }()
 
     private let exitButton = ImageButton(.exit)
-    private let userImage = YPImageView()
+    private let userImage = YPImageView(.photo)
     private let usernameLabel = YPLabel(.primary, .ypWhite, "Екатерина Новикова")
     private let userURL = YPLabel(.secondary, .ypGray, "@ekaterina_nov")
     private let userInfo = YPLabel(.secondary, .ypWhite, "Hello world!")
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configure()
         setupUI()
         setupConstraints()
+        addObserver()
     }
 
     // MARK: - Lifecycle
@@ -42,8 +48,28 @@ final class ProfileViewController: UIViewController {
     }
 
     // MARK: - Configure
-    private func configure() {
-        userImage.image = .photo
+    private func configureProfile(profile: Profile?) {
+
+        guard
+            let profile,
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let imageUrl = URL(string: profileImageURL)
+        else { return }
+
+        let processor = RoundCornerImageProcessor(cornerRadius: 35)
+
+        userImage.kf.setImage(
+            with: imageUrl,
+            placeholder: UIImage(named: "placeholder.jpeg"),
+            options: [.processor(processor),
+                      .cacheOriginalImage,
+                      .transition(.fade(1))]
+        )
+        userImage.layer.cornerRadius = userImage.bounds.width / 2
+        userImage.layer.masksToBounds = true
+        usernameLabel.text = profile.name
+        userURL.text = profile.username
+        userInfo.text = profile.bio ?? "Нет описания"
     }
 
     // MARK: - Setup
@@ -56,7 +82,6 @@ final class ProfileViewController: UIViewController {
 
         headerStack.addArrangedSubview(userImage)
         headerStack.addArrangedSubview(exitButton)
-
     }
 
     private func setupConstraints() {
@@ -66,9 +91,18 @@ final class ProfileViewController: UIViewController {
             mainStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
 
             headerStack.widthAnchor.constraint(equalTo: mainStack.widthAnchor),
-            
+
             userImage.heightAnchor.constraint(equalToConstant: 70),
             userImage.widthAnchor.constraint(equalToConstant: 70),
         ])
+    }
+
+    //MARK: - Observer
+    private func addObserver() {
+        profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
+            guard let self else { return }
+            self.configureProfile(profile: profileService.profile)
+        }
+        self.configureProfile(profile: profileService.profile)
     }
 }

@@ -9,6 +9,10 @@ protocol WebViewViewControllerDelegate: AnyObject {
 // MARK: - WebViewViewController
 final class WebViewViewController: UIViewController {
 
+    enum WebViewConstants {
+        static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+    }
+
     // MARK: - UI Components
     let webView: WKWebView = {
         let vw = WKWebView()
@@ -25,6 +29,7 @@ final class WebViewViewController: UIViewController {
 
     // MARK: - Properties
     weak var delegate: WebViewViewControllerDelegate?
+    private var estimatedProgressObservation: NSKeyValueObservation?
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -38,11 +43,6 @@ final class WebViewViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         addObserver()
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        removeObserver()
     }
 
     // MARK: - Setup
@@ -95,6 +95,7 @@ final class WebViewViewController: UIViewController {
             return
         }
         let request = URLRequest(url: url)
+        print(request)
         webView.load(request)
     }
 }
@@ -112,27 +113,13 @@ extension WebViewViewController: WKNavigationDelegate {
     }
 
     private func addObserver() {
-        webView.addObserver(self,
-                            forKeyPath: #keyPath(WKWebView.estimatedProgress),
-                            options: .new,
-                            context: nil)
-    }
-
-    private func removeObserver() {
-        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
-    }
-
-    override func observeValue(
-        forKeyPath keyPath: String?,
-        of object: Any?,
-        change: [NSKeyValueChangeKey : Any]?,
-        context: UnsafeMutableRawPointer?
-    ) {
-        if keyPath == #keyPath(WKWebView.estimatedProgress) {
-            updateProgress()
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
+        estimatedProgressObservation = webView.observe(
+            \.estimatedProgress,
+             options: [],
+             changeHandler: { [weak self] _, _ in
+                 guard let self = self else { return }
+                 self.updateProgress()
+             })
     }
 
     private func updateProgress() {
@@ -152,14 +139,5 @@ extension WebViewViewController: WKNavigationDelegate {
         } else {
             return nil
         }
-    }
-}
-
-// MARK: - Extension WebViewViewController
-
-extension WebViewViewController {
-
-    enum WebViewConstants {
-        static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
     }
 }
