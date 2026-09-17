@@ -1,9 +1,11 @@
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
 
     // MARK: - Properties
     let profileService = ProfileService.shared
+    let avatarURL = ProfileImageService.shared.avatarURL
     private var profileImageServiceObserver: NSObjectProtocol?
 
     // MARK: - UI Components
@@ -34,9 +36,9 @@ final class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateAvatar(profile: profileService.profile)
         setupUI()
         setupConstraints()
+        addObserver()
     }
 
     // MARK: - Lifecycle
@@ -46,14 +48,25 @@ final class ProfileViewController: UIViewController {
     }
 
     // MARK: - Configure
-    private func updateAvatar(profile: Profile?) {
+    private func configureProfile(profile: Profile?) {
 
-        guard let profile else {
-            print("Profile data is nil")
-            return
-        }
+        guard
+            let profile,
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let imageUrl = URL(string: profileImageURL)
+        else { return }
 
-        userImage.image = .photo
+        let processor = RoundCornerImageProcessor(cornerRadius: 35)
+
+        userImage.kf.setImage(
+            with: imageUrl,
+            placeholder: UIImage(named: "placeholder.jpeg"),
+            options: [.processor(processor),
+                      .cacheOriginalImage,
+                      .transition(.fade(1))]
+        )
+        userImage.layer.cornerRadius = userImage.bounds.width / 2
+        userImage.layer.masksToBounds = true
         usernameLabel.text = profile.name
         userURL.text = profile.username
         userInfo.text = profile.bio ?? "Нет описания"
@@ -88,8 +101,8 @@ final class ProfileViewController: UIViewController {
     private func addObserver() {
         profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
             guard let self else { return }
-            self.updateAvatar(profile: profileService.profile)
+            self.configureProfile(profile: profileService.profile)
         }
-        updateAvatar(profile: profileService.profile)
+        self.configureProfile(profile: profileService.profile)
     }
 }
