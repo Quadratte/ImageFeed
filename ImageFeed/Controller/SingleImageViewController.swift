@@ -4,13 +4,13 @@ final class SingleImageViewController: UIViewController {
 
     // MARK: - UI Components
     private let scrollView: UIScrollView = {
-        let sv = UIScrollView()
-        sv.translatesAutoresizingMaskIntoConstraints = false
-        sv.minimumZoomScale = 0.1
-        sv.maximumZoomScale = 1.25
-        sv.showsVerticalScrollIndicator = false
-        sv.showsHorizontalScrollIndicator = false
-        return sv
+        let view = UIScrollView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.minimumZoomScale = 0.1
+        view.maximumZoomScale = 1.25
+        view.showsVerticalScrollIndicator = false
+        view.showsHorizontalScrollIndicator = false
+        return view
     }()
 
     private let imageView = YPImageView(.rounded)
@@ -65,7 +65,7 @@ final class SingleImageViewController: UIViewController {
             shareButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             shareButton.widthAnchor.constraint(equalToConstant: 50),
             shareButton.heightAnchor.constraint(equalToConstant: 50),
-            shareButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -17),
+            shareButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -17)
         ])
     }
 

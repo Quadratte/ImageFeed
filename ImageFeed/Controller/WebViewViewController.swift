@@ -9,22 +9,27 @@ protocol WebViewViewControllerDelegate: AnyObject {
 // MARK: - WebViewViewController
 final class WebViewViewController: UIViewController {
 
+    enum WebViewConstants {
+        static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+    }
+
     // MARK: - UI Components
     let webView: WKWebView = {
-        let vw = WKWebView()
-        vw.translatesAutoresizingMaskIntoConstraints = false
-        return vw
+        let view = WKWebView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
 
     let progressView: UIProgressView = {
-        let pv = UIProgressView()
-        pv.translatesAutoresizingMaskIntoConstraints = false
-        pv.progressTintColor = .ypBlack
-        return pv
+        let view = UIProgressView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.progressTintColor = .ypBlack
+        return view
     }()
 
     // MARK: - Properties
     weak var delegate: WebViewViewControllerDelegate?
+    private var estimatedProgressObservation: NSKeyValueObservation?
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -38,11 +43,6 @@ final class WebViewViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         addObserver()
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        removeObserver()
     }
 
     // MARK: - Setup
@@ -68,7 +68,7 @@ final class WebViewViewController: UIViewController {
 
             progressView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             progressView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            progressView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            progressView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
 
@@ -95,13 +95,17 @@ final class WebViewViewController: UIViewController {
             return
         }
         let request = URLRequest(url: url)
+        print(request)
         webView.load(request)
     }
 }
 // MARK: - WKNavigationDelegate
 extension WebViewViewController: WKNavigationDelegate {
 
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
+    func webView(
+        _ webView: WKWebView,
+        decidePolicyFor navigationAction: WKNavigationAction,
+        decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
     ) {
         if let code = code(from: navigationAction) {
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
@@ -112,27 +116,13 @@ extension WebViewViewController: WKNavigationDelegate {
     }
 
     private func addObserver() {
-        webView.addObserver(self,
-                            forKeyPath: #keyPath(WKWebView.estimatedProgress),
-                            options: .new,
-                            context: nil)
-    }
-
-    private func removeObserver() {
-        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
-    }
-
-    override func observeValue(
-        forKeyPath keyPath: String?,
-        of object: Any?,
-        change: [NSKeyValueChangeKey : Any]?,
-        context: UnsafeMutableRawPointer?
-    ) {
-        if keyPath == #keyPath(WKWebView.estimatedProgress) {
-            updateProgress()
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
+        estimatedProgressObservation = webView.observe(
+            \.estimatedProgress,
+             options: [],
+             changeHandler: { [weak self] _, _ in
+                 guard let self else { return }
+                 self.updateProgress()
+             })
     }
 
     private func updateProgress() {
@@ -146,20 +136,10 @@ extension WebViewViewController: WKNavigationDelegate {
             let urlComponents = URLComponents(string: url.absoluteString),
             urlComponents.path == "/oauth/authorize/native",
             let items = urlComponents.queryItems,
-            let codeItem = items.first(where: { $0.name == "code" })
-        {
+            let codeItem = items.first(where: { $0.name == "code" }) {
             return codeItem.value
         } else {
             return nil
         }
-    }
-}
-
-// MARK: - Extension WebViewViewController
-
-extension WebViewViewController {
-
-    enum WebViewConstants {
-        static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
     }
 }
