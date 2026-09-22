@@ -27,7 +27,6 @@ final class ProfileImageService {
 
     private(set) var avatarURL: String?
     private var task: URLSessionTask?
-
     func fetchProfileImageURL(username: String, completion: @escaping (Result<String, Error>) -> Void) {
         task?.cancel()
 
@@ -79,4 +78,3 @@ final class ProfileImageService {
         return request
     }
 }
-

@@ -59,7 +59,7 @@ final class ImagesListCell: UITableViewCell {
             favoriteButton.widthAnchor.constraint(equalToConstant: 44),
 
             cardLabel.leadingAnchor.constraint(equalTo: cardImage.leadingAnchor, constant: 8),
-            cardLabel.bottomAnchor.constraint(equalTo: cardImage.bottomAnchor, constant: -8),
+            cardLabel.bottomAnchor.constraint(equalTo: cardImage.bottomAnchor, constant: -8)
         ])
     }
 

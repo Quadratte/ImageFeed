@@ -93,16 +93,19 @@ final class ProfileViewController: UIViewController {
             headerStack.widthAnchor.constraint(equalTo: mainStack.widthAnchor),
 
             userImage.heightAnchor.constraint(equalToConstant: 70),
-            userImage.widthAnchor.constraint(equalToConstant: 70),
+            userImage.widthAnchor.constraint(equalToConstant: 70)
         ])
     }
 
-    //MARK: - Observer
+    // MARK: - Observer
     private func addObserver() {
-        profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
-            guard let self else { return }
-            self.configureProfile(profile: profileService.profile)
-        }
+        profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: ProfileImageService.didChangeNotification,
+            object: nil,
+            queue: .main) { [weak self] _ in
+                guard let self else { return }
+                self.configureProfile(profile: profileService.profile)
+            }
         self.configureProfile(profile: profileService.profile)
     }
 }

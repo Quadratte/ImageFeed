@@ -53,7 +53,7 @@ final class AuthViewController: UIViewController {
             loginButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             loginButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             loginButton.heightAnchor.constraint(equalToConstant: 48),
-            loginButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -90),
+            loginButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -90)
         ])
     }
 
@@ -72,7 +72,6 @@ final class AuthViewController: UIViewController {
         alert.addAction(cancelAction)
         self.present(alert, animated: true)
     }
-
 
     // MARK: - Navigation
     private func pushToNextController() {

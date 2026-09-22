@@ -154,10 +154,18 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		10E03100305C7B8B00BFBE49 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		10EBE681301843D8009A96A5 = {
 			isa = PBXGroup;
 			children = (
 				10AF0EF130192320008B8477 /* ImageFeed */,
+				10E03100305C7B8B00BFBE49 /* Frameworks */,
 				10EBE68B301843D9009A96A5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -184,6 +192,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				10E03105305C7BDD00BFBE49 /* PBXTargetDependency */,
 			);
 			name = ImageFeed;
 			packageProductDependencies = (
@@ -223,6 +232,7 @@
 				10D4EC2B3048AAEF00F216D2 /* XCRemoteSwiftPackageReference "ProgressHUD" */,
 				107320FE305B16B7002C9AA9 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				10E030F9305C511000BFBE49 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
+				10E03103305C7BD500BFBE49 /* XCRemoteSwiftPackageReference "SwiftLint" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 10EBE68B301843D9009A96A5 /* Products */;
@@ -278,6 +288,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		10E03105305C7BDD00BFBE49 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 10E03104305C7BDD00BFBE49 /* SwiftLintBuildToolPlugin */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		10AF0EEE30192320008B8477 /* LaunchScreen.storyboard */ = {
@@ -532,6 +549,14 @@
 				minimumVersion = 4.0.1;
 			};
 		};
+		10E03103305C7BD500BFBE49 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.65.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -549,6 +574,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 10E030F9305C511000BFBE49 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
 			productName = SwiftKeychainWrapper;
+		};
+		10E03104305C7BDD00BFBE49 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 10E03103305C7BD500BFBE49 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

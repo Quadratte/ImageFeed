@@ -9,6 +9,13 @@ final class OAuth2Service {
         case noData
         case decodingError
     }
+    // MARK: - HTTPMethod
+    private enum HTTPMethod: String {
+        case get = "GET"
+        case post = "POST"
+        case put = "PUT"
+        case delete = "DELETE"
+    }
 
     // MARK: - Properties
     private let urlSession = URLSession.shared
@@ -33,7 +40,7 @@ final class OAuth2Service {
                 return
             }
         } else {
-            
+
             if lastCode == code {
                 completion(.failure(NetworkError.codeError))
                 return
@@ -64,7 +71,7 @@ final class OAuth2Service {
 
                 case .failure(let error):
                     print("[fetchOAuthToken]: Ошибка запроса: \(error.localizedDescription)")
-                    completion(.failure(error)) 
+                    completion(.failure(error))
 
                     self.task = nil
                     self.lastCode = nil
@@ -75,7 +82,7 @@ final class OAuth2Service {
         task.resume()
     }
 
-// MARK: - Make request
+    // MARK: - Make request
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
         guard var urlComponents = URLComponents(string: Constants.url) else {
             assertionFailure("Failed to create URL")
@@ -87,13 +94,13 @@ final class OAuth2Service {
             URLQueryItem(name: "client_secret", value: Constants.secretKey),
             URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
             URLQueryItem(name: "code", value: code),
-            URLQueryItem(name: "grant_type", value: "authorization_code"),
+            URLQueryItem(name: "grant_type", value: "authorization_code")
         ]
 
         guard let authTokenUrl = urlComponents.url else { return nil }
 
         var request = URLRequest(url: authTokenUrl)
-        request.httpMethod = "POST"
+        request.httpMethod = HTTPMethod.post.rawValue
         return request
     }
 }

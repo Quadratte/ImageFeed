@@ -15,16 +15,16 @@ final class WebViewViewController: UIViewController {
 
     // MARK: - UI Components
     let webView: WKWebView = {
-        let vw = WKWebView()
-        vw.translatesAutoresizingMaskIntoConstraints = false
-        return vw
+        let view = WKWebView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
 
     let progressView: UIProgressView = {
-        let pv = UIProgressView()
-        pv.translatesAutoresizingMaskIntoConstraints = false
-        pv.progressTintColor = .ypBlack
-        return pv
+        let view = UIProgressView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.progressTintColor = .ypBlack
+        return view
     }()
 
     // MARK: - Properties
@@ -68,7 +68,7 @@ final class WebViewViewController: UIViewController {
 
             progressView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             progressView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            progressView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            progressView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
 
@@ -102,7 +102,10 @@ final class WebViewViewController: UIViewController {
 // MARK: - WKNavigationDelegate
 extension WebViewViewController: WKNavigationDelegate {
 
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
+    func webView(
+        _ webView: WKWebView,
+        decidePolicyFor navigationAction: WKNavigationAction,
+        decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
     ) {
         if let code = code(from: navigationAction) {
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
@@ -117,7 +120,7 @@ extension WebViewViewController: WKNavigationDelegate {
             \.estimatedProgress,
              options: [],
              changeHandler: { [weak self] _, _ in
-                 guard let self = self else { return }
+                 guard let self else { return }
                  self.updateProgress()
              })
     }
@@ -133,8 +136,7 @@ extension WebViewViewController: WKNavigationDelegate {
             let urlComponents = URLComponents(string: url.absoluteString),
             urlComponents.path == "/oauth/authorize/native",
             let items = urlComponents.queryItems,
-            let codeItem = items.first(where: { $0.name == "code" })
-        {
+            let codeItem = items.first(where: { $0.name == "code" }) {
             return codeItem.value
         } else {
             return nil
