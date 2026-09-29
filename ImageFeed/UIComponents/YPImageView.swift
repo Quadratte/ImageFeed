@@ -28,7 +28,7 @@ final class YPImageView: UIImageView {
     required init?(coder: NSCoder) {
         nil
     }
-    
+
     private func setupImage() {
         translatesAutoresizingMaskIntoConstraints = false
         contentMode = .scaleAspectFill
