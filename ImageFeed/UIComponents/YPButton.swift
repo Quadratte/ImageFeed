@@ -22,5 +22,6 @@ final class YPButton: UIButton {
         setTitleColor(.ypBlack, for: .normal)
         layer.cornerRadius = 16
         layer.masksToBounds = true
+
     }
 }
