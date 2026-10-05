@@ -21,6 +21,12 @@ final class ImageListViewController: UIViewController {
     private let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
     private var photos: [Photo] = []
     private var imagesListServiceObserver: NSObjectProtocol?
+    private lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ru_RU")
+        formatter.dateFormat = "d MMMM yyyy"
+        return formatter
+    }()
 
     // MARK: - Init
     init() {
@@ -98,7 +104,7 @@ final class ImageListViewController: UIViewController {
     private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         let photo = photos[indexPath.row]
         let imageURL = URL(string: photo.thumbImageURL)
-        let date = photo.createdAt?.formatted(date: .long, time: .omitted) ?? ""
+        let date = photo.createdAt.map { dateFormatter.string(from: $0) } ?? ""
 
         cell.configure(imageURL: imageURL, date: date, isLiked: photo.isLiked)
     }

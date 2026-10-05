@@ -46,14 +46,14 @@ struct UrlsResult: Codable {
 final class ImagesListService {
     static let shared = ImagesListService(); private init() { }
     private(set) var photos: [Photo] = []
+    private let perPage = 10
 
     static let didChangeNotification = Notification.Name("ImagesListServiceDidChange")
 
-    private var lastLoadedPage: Int?
-    private let perPage = 10
-
     private let urlSession = URLSession.shared
-    private var task: URLSessionTask?
+    private var photosTask: URLSessionTask?
+    private var likesTask: URLSessionTask?
+    private var lastLoadedPage: Int?
 
     private lazy var dateFormatter: ISO8601DateFormatter = {
             ISO8601DateFormatter()
@@ -61,10 +61,15 @@ final class ImagesListService {
 
     func cleanPhotos() {
         photos = []
+        lastLoadedPage = nil
+        photosTask?.cancel()
+        photosTask = nil
+        likesTask?.cancel()
+        likesTask = nil
     }
 
     func fetchPhotosNextPage() {
-        guard task == nil else { return }
+        guard photosTask == nil else { return }
 
         let nextPage = (lastLoadedPage ?? 0) + 1
 
@@ -74,7 +79,7 @@ final class ImagesListService {
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
             DispatchQueue.main.async {
                 guard let self else { return }
-                defer { self.task = nil }
+                defer { self.photosTask = nil }
 
                 switch result {
                 case .success(let results):
@@ -89,7 +94,7 @@ final class ImagesListService {
                 }
             }
         }
-        self.task = task
+        self.photosTask = task
         task.resume()
     }
 
@@ -156,7 +161,7 @@ final class ImagesListService {
                 }
             }
         }
-        self.task = task
+        self.likesTask = task
         task.resume()
     }
 

@@ -53,6 +53,7 @@ final class ProfileService {
                 self?.profile = profile
                 completion(.success(profile))
             case .failure(let error):
+                if (error as NSError).code == NSURLErrorCancelled { return }
                 print("[fetchProfile]: Ошибка запроса: \(error.localizedDescription)")
                 completion(.failure(error))
             }
