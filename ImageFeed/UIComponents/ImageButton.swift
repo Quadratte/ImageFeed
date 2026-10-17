@@ -12,14 +12,14 @@ final class ImageButton: UIButton {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-       nil
+        nil
     }
 
     private func setupButton() {
-      translatesAutoresizingMaskIntoConstraints = false
-      setImage(buttonImage, for: .normal)
-      imageView?.contentMode = .scaleAspectFit
-      contentVerticalAlignment = .center
-      contentHorizontalAlignment = .center
+        translatesAutoresizingMaskIntoConstraints = false
+        setImage(buttonImage, for: .normal)
+        imageView?.contentMode = .scaleAspectFit
+        contentVerticalAlignment = .center
+        contentHorizontalAlignment = .center
     }
 }

@@ -22,11 +22,16 @@ struct UserResult: Codable {
 
 final class ProfileImageService {
     static let shared = ProfileImageService()
-    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
+    static let didChangeNotification = Notification.Name("ProfileImageProviderDidChange")
     private init() { }
 
     private(set) var avatarURL: String?
     private var task: URLSessionTask?
+
+    func cleanAvatarURL() {
+        avatarURL = nil
+    }
+
     func fetchProfileImageURL(username: String, completion: @escaping (Result<String, Error>) -> Void) {
         task?.cancel()
 
