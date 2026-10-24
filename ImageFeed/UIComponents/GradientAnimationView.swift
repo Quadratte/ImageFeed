@@ -9,6 +9,7 @@ final class GradientAnimationView: UIView {
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
+        translatesAutoresizingMaskIntoConstraints = false
         setupGradient()
     }
 

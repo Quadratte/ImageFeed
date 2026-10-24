@@ -24,9 +24,16 @@ final class SingleImageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        setupConstraints()
         setupActions()
+        setupConstraints()
         loadImage()
+        configure()
+    }
+
+    // MARK: - Configure
+
+    private func configure() {
+        backButton.accessibilityIdentifier = "nav back button white"
     }
 
     // MARK: - Setup

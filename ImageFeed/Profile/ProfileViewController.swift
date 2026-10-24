@@ -1,12 +1,19 @@
 import UIKit
 import Kingfisher
 
+protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfilePresenterProtocol? { get set }
+    func updateProfile(profile: Profile?)
+    func updateAvatar(url: URL?)
+    func showLogoutAlert()
+    func switchToAuth()
+    func removeGradients()
+}
+
 final class ProfileViewController: UIViewController {
 
     // MARK: - Properties
-    let profileService = ProfileService.shared
-    let avatarURL = ProfileImageService.shared.avatarURL
-    private var profileImageServiceObserver: NSObjectProtocol?
+    var presenter: ProfilePresenterProtocol?
 
     // MARK: - UI Components
     private let mainStack: UIStackView = {
@@ -40,48 +47,25 @@ final class ProfileViewController: UIViewController {
     private let loginGradient = GradientAnimationView()
     private let bioGradient = GradientAnimationView()
 
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupActions()
         setupConstraints()
-        addObserver()
+        presenter?.viewDidLoad()
     }
 
-    // MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
     // MARK: - Configure
-    private func configureProfile(profile: Profile?) {
-
-        guard
-            let profile,
-            let profileImageURL = ProfileImageService.shared.avatarURL,
-            let imageUrl = URL(string: profileImageURL)
-                else { return }
-
-        avatarGradient.removeAnimation()
-        nameGradient.removeAnimation()
-        loginGradient.removeAnimation()
-        bioGradient.removeAnimation()
-
-        let processor = RoundCornerImageProcessor(cornerRadius: 35)
-
-        userImage.kf.setImage(
-            with: imageUrl,
-            placeholder: UIImage(named: "placeholder.jpeg"),
-            options: [.processor(processor),
-                      .cacheOriginalImage,
-                      .transition(.fade(1))]
-        )
-        userImage.layer.cornerRadius = userImage.bounds.width / 2
-        userImage.layer.masksToBounds = true
-        usernameLabel.text = profile.name
-        userURL.text = profile.username
-        userInfo.text = profile.bio ?? "Нет описания"
+    func configure(_ presenter: ProfilePresenterProtocol) {
+        self.presenter = presenter
+        self.presenter?.view = self
+        exitButton.accessibilityIdentifier = "logout button"
     }
 
     // MARK: - Setup
@@ -103,7 +87,7 @@ final class ProfileViewController: UIViewController {
 
     private func setupActions() {
         exitButton.addAction(UIAction { [weak self] _ in
-            self?.showLogoutAlert()
+            self?.presenter?.didTapLogout()
         }, for: .touchUpInside)
     }
 
@@ -139,36 +123,53 @@ final class ProfileViewController: UIViewController {
             userImage.widthAnchor.constraint(equalToConstant: 70)
         ])
     }
+}
 
-    // MARK: - Observer
-    private func addObserver() {
-        profileImageServiceObserver = NotificationCenter.default.addObserver(
-            forName: ProfileImageService.didChangeNotification,
-            object: nil,
-            queue: .main) { [weak self] _ in
-                guard let self else { return }
-                self.configureProfile(profile: profileService.profile)
-            }
-        self.configureProfile(profile: profileService.profile)
+// MARK: - ProfileViewControllerProtocol
+extension ProfileViewController: ProfileViewControllerProtocol {
+
+    func updateProfile(profile: Profile?) {
+        guard let profile else { return }
+
+        usernameLabel.text = profile.name
+        userURL.text = profile.username
+        userInfo.text = profile.bio ?? "Нет описания"
     }
 
-    private func showLogoutAlert() {
+    func updateAvatar(url: URL?) {
+        avatarGradient.removeAnimation()
+        nameGradient.removeAnimation()
+        loginGradient.removeAnimation()
+        bioGradient.removeAnimation()
+
+        guard let url else { return }
+
+        let processor = RoundCornerImageProcessor(cornerRadius: 35)
+        userImage.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "placeholder.jpeg"),
+            options: [.processor(processor), .cacheOriginalImage, .transition(.fade(1))]
+        )
+        userImage.layer.cornerRadius = userImage.bounds.width / 2
+        userImage.layer.masksToBounds = true
+    }
+
+    func showLogoutAlert() {
         let alert = UIAlertController(
-            title: "Выход",
-            message: "Вы уверены, что хотите выйти?",
+            title: "Пока, пока!",
+            message: "Уверены, что хотите выйти?",
             preferredStyle: .alert
         )
 
         alert.addAction(UIAlertAction(title: "Да", style: .default) { [weak self] _ in
-            ProfileLogoutService.shared.logout()
-            self?.switchToAuthViewController()
+            self?.presenter?.logout()
         })
         alert.addAction(UIAlertAction(title: "Нет", style: .cancel))
 
         present(alert, animated: true)
     }
 
-    private func switchToAuthViewController() {
+    func switchToAuth() {
         guard let window = UIApplication.shared.connectedScenes
             .compactMap({ $0 as? UIWindowScene })
             .flatMap({ $0.windows })
@@ -176,5 +177,12 @@ final class ProfileViewController: UIViewController {
 
         window.rootViewController = NavController(rootViewController: SplashViewController())
         window.makeKeyAndVisible()
+    }
+
+    func removeGradients() {
+        avatarGradient.removeAnimation()
+        nameGradient.removeAnimation()
+        loginGradient.removeAnimation()
+        bioGradient.removeAnimation()
     }
 }

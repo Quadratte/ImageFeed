@@ -20,7 +20,12 @@ final class TabBarController: UITabBarController {
         tabBar.scrollEdgeAppearance = appearance
 
         let imageListVC = ImageListViewController()
+        let imageListPresenter = ImagesListPresenter()
+        imageListVC.configure(imageListPresenter)
+
         let profileVC = ProfileViewController()
+        let profilePresenter = ProfilePresenter()
+        profileVC.configure(profilePresenter)
 
         imageListVC.tabBarItem = UITabBarItem(
             title: nil,
