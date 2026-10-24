@@ -10,7 +10,7 @@ final class AuthViewController: UIViewController {
 
     // MARK: - UI Components
     let logoImage = YPImageView(.authLogo)
-    let loginButton = YPButton("Войти")
+    let loginButton = YPButton("Войти", id: "Authenticate")
 
     // MARK: - Properties
     let oauth2Service = OAuth2Service.shared
@@ -76,6 +76,10 @@ final class AuthViewController: UIViewController {
     // MARK: - Navigation
     private func pushToNextController() {
         let vc = WebViewViewController()
+        let authHelper = AuthHelper()
+        let presenter = WebViewPresenter(authHelper: authHelper)
+        vc.presenter = presenter
+        presenter.view = vc
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
