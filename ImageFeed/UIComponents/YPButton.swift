@@ -3,9 +3,11 @@ import UIKit
 final class YPButton: UIButton {
 
     let title: String
+    let id: String?
 
-    init(_ title: String) {
+    init(_ title: String, id: String? = nil) {
         self.title = title
+        self.id = id
         super .init(frame: .zero)
         setupButton()
     }
@@ -22,6 +24,8 @@ final class YPButton: UIButton {
         setTitleColor(.ypBlack, for: .normal)
         layer.cornerRadius = 16
         layer.masksToBounds = true
-
+        accessibilityIdentifier = id
+        accessibilityLabel = title
+        isAccessibilityElement = true
     }
 }

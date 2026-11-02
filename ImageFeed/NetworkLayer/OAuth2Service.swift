@@ -28,7 +28,6 @@ final class OAuth2Service {
     private let tokenStorage = OAuth2TokenStorage.shared
 
     @MainActor
-
     // MARK: - Fetch token
     func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)

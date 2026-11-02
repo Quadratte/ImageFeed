@@ -9,7 +9,11 @@ final class ImagesListCell: UITableViewCell {
     // MARK: - Properties
     static let id = String(describing: ImagesListCell.self)
     weak var delegate: ImagesListCellDelegate?
-    private let gradientView = GradientAnimationView()
+    private let gradientView: GradientAnimationView = {
+        let view = GradientAnimationView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     // MARK: - UI Components
     private let favoriteButton = ImageButton(.active)
@@ -120,5 +124,6 @@ final class ImagesListCell: UITableViewCell {
     func setIsLiked(_ isLiked: Bool) {
         let likeImage = isLiked ? UIImage(named: "active") : UIImage(named: "inactive")
         favoriteButton.setImage(likeImage, for: .normal)
+        favoriteButton.accessibilityIdentifier = isLiked ? "like button on" : "like button off"
     }
 }
